@@ -5,7 +5,7 @@ import {
     getMovieDetails,
     getSimilarMovies,
     getMoviesByCategory
-} from "../controllers/movie.controller.mjs";
+} from "../controllers/movieController.mjs";
 
 
 const router = Router();

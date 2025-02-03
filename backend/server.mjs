@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser';
 import { configurePassport } from './config/passport.mjs';
 import authRoutes from "./routes/auth.route.mjs"
 import movieRoutes from "./routes/movie.route.mjs"
+import tvRoutes from "./routes/tv.route.mjs"
+import searchRoutes from "./routes/search.route.mjs"
+import { authenticateJWT } from './middlewares/auth.middleware.mjs';
 
 
 
@@ -27,7 +30,10 @@ app.use(cookieParser());
 
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/movie", movieRoutes);
+app.use("/api/v1/movie", authenticateJWT, movieRoutes);
+app.use("/api/v1/tv", authenticateJWT, tvRoutes);
+app.use("/api/v1/search", authenticateJWT, searchRoutes);
+
 
 
 

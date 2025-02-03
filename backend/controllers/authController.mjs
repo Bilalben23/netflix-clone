@@ -1,6 +1,6 @@
 import { hashPassword } from "../utils/bcryptUtils.mjs";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwtUtils.mjs";
-import { User } from "../models/user.model.mjs"
+import { User } from "../models/userModel.mjs"
 import bcrypt from "bcrypt";
 import { ENV_VARS } from "../config/envVars.mjs";
 
