@@ -1,16 +1,18 @@
 import { Router } from "express";
 import { login, logout, signup } from "../controllers/auth.controller.mjs";
+import { loginValidation, signupValidation } from "../validation/auth.validation.mjs";
+import { validate } from "../middlewares/validate.middleware.mjs";
 
 
 const router = Router();
 
 
-router.post("api/v1/signup", signup);
+router.post("/signup", [signupValidation, validate], signup);
 
 
-router.post("api/v1/login", login);
+router.post("/login", [loginValidation, validate], login);
 
 
-router.post("api/v1/logout", logout);
+router.get("/logout", logout);
 
 export default router;
