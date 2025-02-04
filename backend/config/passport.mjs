@@ -1,7 +1,7 @@
 import passport from "passport"
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt"
 import { ENV_VARS } from "./envVars.mjs"
-import { User } from "../models/user.model.mjs"
+import { User } from "../models/userModel.mjs"
 
 
 const options = {

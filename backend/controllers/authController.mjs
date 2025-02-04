@@ -88,6 +88,16 @@ export const signup = async (req, res) => {
 export const logout = async (req, res) => {
     try {
 
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!refreshToken) {
+            return res.status(400).json({
+                success: true,
+                message: "No active session found, user is already logged out"
+            })
+        }
+
+
         res.clearCookie("refreshToken", {
             httpOnly: true,
             secure: ENV_VARS.NODE_ENV !== "development",
@@ -95,9 +105,10 @@ export const logout = async (req, res) => {
             path: "/"
         })
 
+
         res.status(200).json({
             success: true,
-            message: "Logout successfully"
+            message: "Logged out successfully"
         })
 
     } catch (err) {

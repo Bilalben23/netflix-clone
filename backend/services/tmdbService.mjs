@@ -6,7 +6,7 @@ export const fetchFromTMDB = async (endpoint) => {
 
     const config = {
         headers: {
-            accept: 'application/json',
+            Accept: 'application/json',
             Authorization: `Bearer ${ENV_VARS.TMDB_API_KEY}`
         }
     };
@@ -16,7 +16,7 @@ export const fetchFromTMDB = async (endpoint) => {
         return data;
     } catch (err) {
         console.error("Error fetching from TMDB:", err.response?.data || err.message);
-        return null; // Avoid breaking frontend if the request fails
+        return null;
     }
 };
 
