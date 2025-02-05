@@ -1,9 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from './pages/Home';
 import Layout from './components/Layout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import AuthLayout from './components/AuthLayout';
+import HomeScreen from './pages/home/HomeScreen';
+import Footer from './components/Footer';
 
 
 export default function App() {
@@ -12,15 +14,15 @@ export default function App() {
       <Routes>
 
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<HomeScreen />} />
         </Route>
 
-        <Route>
+        <Route element={<AuthLayout />}>
           <Route path='/signin' element={<Signin />} />
           <Route path='/signup' element={<Signup />} />
         </Route>
-
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }
