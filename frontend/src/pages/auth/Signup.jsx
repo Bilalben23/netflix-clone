@@ -1,50 +1,55 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames";
-import { XCircle } from "lucide-react"
-import axiosInstance from '../utils/axiosInstance';
+import { XCircle } from "lucide-react";
+import axiosInstance from '../../services/axiosInstance';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { ClipLoader } from "react-spinners"
 
-const signinValidationSchema = Yup.object().shape({
+const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+const signupValidationSchema = Yup.object().shape({
     username: Yup.string()
         .trim()
-        .required("Username is required"),
+        .required("Username is required")
+        .min(3, "Username must be at least 3 characters")
+        .max(20, "Username must be at most 20 characters"),
+    email: Yup.string()
+        .email("Email must be valid")
+        .required("Email is required"),
     password: Yup.string()
-        .trim()
+        .matches(strongPasswordRegex, "Password must include uppercase, lowercase, a number, and a special character")
         .required("Password is required")
 })
 
 
 export default function Signup() {
+    const [searchParams] = useSearchParams();
+    const emailFromQuery = searchParams.get('email') || '';
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
 
     const onSubmit = async (values, actions) => {
         try {
-            const { data } = await axiosInstance.post("/auth/login", values);
+            const { data } = await axiosInstance.post("/auth/signup", values);
             if (data.success) {
-                dispatch(login({ user: { ...data.user }, accessToken: data.accessToken }))
                 toast.success(data.message);
-                navigate("/");
+                navigate("/signin");
             } else {
                 toast.error(data.message);
             }
         } catch (err) {
             const errorMessage = err?.response?.data?.message || "Something went wrong";
-            console.log(err.response.data);
-            console.log(err?.response?.status)
             if (err?.response?.status === 400) {
                 err.response.data.errors?.forEach(e => {
                     actions.setFieldError(e.field, e.message);
                 })
             }
+            console.error(err);
             toast.error(errorMessage);
         } finally {
-            actions.setSubmitting(false);
+            actions.setSubmitting(false)
         }
     }
 
@@ -52,22 +57,45 @@ export default function Signup() {
         handleSubmit,
         getFieldProps,
         errors,
+        isSubmitting,
+        isValid,
         touched
     } = useFormik({
         initialValues: {
+            email: emailFromQuery,
             username: "",
-            password: "",
-            rememberMe: false
+            password: ""
         },
-        validationSchema: signinValidationSchema,
+        validationSchema: signupValidationSchema,
         onSubmit
     })
 
 
     return (
         <div className='bg-black/60 rounded-md shadow-lg mx-auto max-w-sm py-4 px-6'>
-            <h1 className='text-xl font-semibold text-center mb-3'>Sign In</h1>
+            <h1 className='text-xl font-semibold text-center mb-3'>Sign Up</h1>
             <form className='flex flex-col gap-y-3' onSubmit={handleSubmit}>
+                <div className=''>
+                    <label htmlFor="email" className='block text-sm mb-1 text-gray-300'>Email</label>
+                    <input
+                        type="email"
+                        name='email'
+                        id="email"
+                        className={classNames('input input-bordered w-full bg-transparent', {
+                            "input-error": errors.email && touched.email
+                        })}
+                        readOnly={isSubmitting}
+                        placeholder='you@example.com'
+                        {...getFieldProps("email")}
+
+                    />
+                    {
+                        touched.email && errors.email && <div className='mt-0.5 text-red-500 gap-x-1 text-xs flex items-center'>
+                            <XCircle size={18} />
+                            <p>{errors.email}</p>
+                        </div>
+                    }
+                </div>
                 <div>
                     <label htmlFor="username" className='block text-sm mb-1 text-gray-300'>Username</label>
                     <input
@@ -78,6 +106,7 @@ export default function Signup() {
                             "input-error": errors.username && touched.username
                         })}
                         placeholder='johndoe'
+                        readOnly={isSubmitting}
                         {...getFieldProps("username")}
                     />
                     {
@@ -86,7 +115,9 @@ export default function Signup() {
                             <p>{errors.username}</p>
                         </div>
                     }
+                    <p></p>
                 </div>
+
                 <div>
                     <label htmlFor="password" className='block text-sm mb-1 text-gray-300'>Password</label>
                     <input
@@ -96,6 +127,7 @@ export default function Signup() {
                         className={classNames('input input-bordered w-full bg-transparent', {
                             "input-error": errors.password && touched.password
                         })}
+                        readOnly={isSubmitting}
                         placeholder="••••••••"
                         {...getFieldProps("password")}
                     />
@@ -107,22 +139,26 @@ export default function Signup() {
                     }
                 </div>
                 <div className='mt-2'>
-                    <button type="submit" className='btn bg-red-600 btn-block text-white btn-error'>Sign In</button>
-                </div>
-                <div className='flex items-center gap-x-2'>
-                    <input
-                        type="checkbox"
-                        name="rememberMe"
-                        className="checkbox checkbox-sm"
-                        id='rememberMe'
-                        {...getFieldProps("rememberMe")}
-                    />
-                    <label htmlFor='rememberMe' className='text-sm text-gray-300 select-none'>Remember Me</label>
+                    <button
+                        type="submit"
+                        className='btn bg-red-600 btn-block text-white btn-error disabled:text-gray-400 disabled:!bg-red-500/40'
+                        disabled={isSubmitting || !isValid}
+                    >
+                        {
+                            isSubmitting ? (
+                                <>
+                                    <span>Signing Up...</span>
+                                    <ClipLoader size={20} color='#99a1af' />
+                                </>
+                            ) : "Sign Up"
+                        }
+
+                    </button>
                 </div>
                 <div className='flex gap-x-2 text-sm' >
-                    <p className='text-gray-300'>Don't have an account?</p>
-                    <Link to="/signup" className='link link-hover font-medium text-red-500'>
-                        Sign Up
+                    <p className='text-gray-300'>Already have an account?</p>
+                    <Link to="/signin" className='link link-hover font-medium text-red-500'>
+                        Sign in
                     </Link>
                 </div>
             </form>

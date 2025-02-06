@@ -3,7 +3,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/jwtUtils.mjs
 import { User } from "../models/userModel.mjs"
 import bcrypt from "bcrypt";
 import { ENV_VARS } from "../config/envVars.mjs";
-
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
     try {
@@ -22,8 +22,8 @@ export const login = async (req, res) => {
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: ENV_VARS.NODE_ENV !== "development",
-            sameSite: "strict",
+            secure: ENV_VARS.NODE_ENV === "production", // Only send over HTTPS in production
+            sameSite: ENV_VARS.NODE_ENV === "production" ? "none" : "lax",
             path: "/",
             maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000
         })
@@ -35,7 +35,8 @@ export const login = async (req, res) => {
             accessToken,
             user: {
                 username: existingUser.username,
-                email: existingUser.email
+                email: existingUser.email,
+                image: existingUser.image
             }
         })
 
@@ -90,7 +91,58 @@ export const signup = async (req, res) => {
 }
 
 
+export const refreshToken = (req, res) => {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({
+            success: false,
+            message: "No refresh token provided"
+        })
+    }
+
+    try {
+
+        jwt.verify(refreshToken, ENV_VARS.REFRESH_SECRET_TOKEN, async (err, decoded) => {
+            if (err) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Invalid refresh token"
+                })
+            }
+
+            const user = await User.findById(decoded.id);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found"
+                })
+            }
+
+            // generate new access token,
+            const newAccessToken = generateAccessToken(user);
+
+            res.status(200).json({
+                success: true,
+                accessToken: newAccessToken,
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    image: user.image
+                }
+            })
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
+}
+
 export const logout = async (req, res) => {
+    console.log("Logout...")
     try {
 
         const refreshToken = req.cookies.refreshToken;

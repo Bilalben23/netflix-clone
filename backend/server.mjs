@@ -11,8 +11,7 @@ import movieRoutes from "./routes/movieRoutes.mjs";
 import tvRoutes from "./routes/tvRoutes.mjs";
 import searchRoutes from "./routes/searchRoutes.mjs";
 import { authenticateJWT } from './middlewares/authMiddleware.mjs';
-import axios from 'axios';
-import { errorHandler } from './middlewares/errorHanlder.mjs';
+import { errorHandler } from './middlewares/errorHandler.mjs';
 
 const app = express();
 
@@ -22,9 +21,10 @@ app.use(helmet());
 
 // CORS Setup
 app.use(cors({
-    origin: "*",  // Allow all origins (adjust this for production!)
-    allowedHeaders: ["Content-Type", "Accept"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    origin: "http://localhost:5173",
+    allowedHeaders: ["Content-Type", "Accept", "Authorization", "X-Requested-With"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true, // allows cookies to be sent
 }));
 
 // Initialize Passport.js for Authentication
@@ -36,13 +36,12 @@ app.use(cookieParser());
 // API Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", authenticateJWT, movieRoutes);
-app.use("/api/v1/movie", authenticateJWT, movieRoutes);
 app.use("/api/v1/tv", authenticateJWT, tvRoutes);
 app.use("/api/v1/search", authenticateJWT, searchRoutes);
 
 app.use(errorHandler);
 
-const PORT = ENV_VARS.PORT || 5000;
+const PORT = ENV_VARS.PORT;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
     connectDB();
