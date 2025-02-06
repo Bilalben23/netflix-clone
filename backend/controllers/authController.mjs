@@ -7,16 +7,15 @@ import { ENV_VARS } from "../config/envVars.mjs";
 
 export const login = async (req, res) => {
     try {
-        const { email, password, rememberMe } = req.body;
+        const { username, password, rememberMe } = req.body;
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ username });
         if (!existingUser || !(await bcrypt.compare(password, existingUser.password))) {
             return res.status(400).json({
                 success: false,
                 message: "Incorrect credentials"
             })
         }
-
 
         const refreshToken = generateRefreshToken(existingUser, rememberMe)
         const accessToken = generateAccessToken(existingUser)

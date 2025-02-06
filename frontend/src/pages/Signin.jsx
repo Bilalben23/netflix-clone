@@ -1,24 +1,51 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames";
 import { XCircle } from "lucide-react"
-
+import axiosInstance from '../utils/axiosInstance';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/auth/authSlice";
 
 const signinValidationSchema = Yup.object().shape({
     username: Yup.string()
         .trim()
         .required("Username is required"),
     password: Yup.string()
+        .trim()
         .required("Password is required")
 })
 
 
 export default function Signup() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    function onSubmit(values, actions) {
-        console.log(values);
+    const onSubmit = async (values, actions) => {
+        try {
+            const { data } = await axiosInstance.post("/auth/login", values);
+            if (data.success) {
+                dispatch(login({ user: { ...data.user }, accessToken: data.accessToken }))
+                toast.success(data.message);
+                navigate("/");
+            } else {
+                toast.error(data.message);
+            }
+        } catch (err) {
+            const errorMessage = err?.response?.data?.message || "Something went wrong";
+            console.log(err.response.data);
+            console.log(err?.response?.status)
+            if (err?.response?.status === 400) {
+                err.response.data.errors?.forEach(e => {
+                    actions.setFieldError(e.field, e.message);
+                })
+            }
+            toast.error(errorMessage);
+        } finally {
+            actions.setSubmitting(false);
+        }
     }
 
     const {
@@ -29,7 +56,8 @@ export default function Signup() {
     } = useFormik({
         initialValues: {
             username: "",
-            password: ""
+            password: "",
+            rememberMe: false
         },
         validationSchema: signinValidationSchema,
         onSubmit
@@ -58,9 +86,8 @@ export default function Signup() {
                             <p>{errors.username}</p>
                         </div>
                     }
-                    <p></p>
                 </div>
-                <div className=''>
+                <div>
                     <label htmlFor="password" className='block text-sm mb-1 text-gray-300'>Password</label>
                     <input
                         type="password"
@@ -81,6 +108,16 @@ export default function Signup() {
                 </div>
                 <div className='mt-2'>
                     <button type="submit" className='btn bg-red-600 btn-block text-white btn-error'>Sign In</button>
+                </div>
+                <div className='flex items-center gap-x-2'>
+                    <input
+                        type="checkbox"
+                        name="rememberMe"
+                        className="checkbox checkbox-sm"
+                        id='rememberMe'
+                        {...getFieldProps("rememberMe")}
+                    />
+                    <label htmlFor='rememberMe' className='text-sm text-gray-300 select-none'>Remember Me</label>
                 </div>
                 <div className='flex gap-x-2 text-sm' >
                     <p className='text-gray-300'>Don't have an account?</p>

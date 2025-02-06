@@ -54,16 +54,12 @@ export const signupValidation = checkSchema({
 
 
 export const loginValidation = checkSchema({
-    email: {
+    username: {
         in: "body",
         trim: true,
         notEmpty: {
             errorMessage: "Email is required"
-        },
-        isEmail: {
-            errorMessage: "email is invalid"
-        },
-        escape: true
+        }
     },
     password: {
         in: "body",
