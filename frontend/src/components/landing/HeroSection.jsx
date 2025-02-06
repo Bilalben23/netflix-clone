@@ -3,6 +3,7 @@ import React from 'react'
 import { ChevronRight } from "lucide-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
+import { useNavigate } from 'react-router-dom';
 
 
 const emailValidationSchema = Yup.object().shape({
@@ -13,17 +14,14 @@ const emailValidationSchema = Yup.object().shape({
 
 
 export default function HeroSection() {
+    const navigate = useNavigate();
 
     const onSubmit = (values, actions) => {
         console.log(values);
+        navigate(`/signup?email=${encodeURIComponent(values.email)}`)
     }
 
     const {
-        values,
-        errors,
-        touched,
-        isValid,
-        isSubmitting,
         handleSubmit,
         getFieldProps
     } = useFormik({

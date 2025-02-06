@@ -51,6 +51,7 @@ export const login = async (req, res) => {
 
 
 export const signup = async (req, res) => {
+    const avatars = ["/avatar1.jpg", "/avatar2.jpg", "/avatar3.jpg"];
     try {
         const { username, email, password } = req.body;
 
@@ -68,7 +69,12 @@ export const signup = async (req, res) => {
         }
 
         const hashedPassword = await hashPassword(password);
-        const newUser = new User({ username, email, password: hashedPassword });
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+            image: avatars[Math.floor(Math.random() * avatars.length)]
+        });
         await newUser.save();
 
         res.status(201).json({

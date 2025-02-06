@@ -1,12 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames";
-import { XCircle } from "lucide-react"
+import { XCircle } from "lucide-react";
+import axiosInstance from '../utils/axiosInstance';
+import toast from 'react-hot-toast';
+import { ClipLoader } from "react-spinners"
 
 const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-
 const signupValidationSchema = Yup.object().shape({
     username: Yup.string()
         .trim()
@@ -23,24 +25,45 @@ const signupValidationSchema = Yup.object().shape({
 
 
 export default function Signup() {
+    const [searchParams] = useSearchParams();
+    const emailFromQuery = searchParams.get('email') || '';
+    const navigate = useNavigate();
 
-    function onSubmit(values, actions) {
-        console.log(values);
+
+    const onSubmit = async (values, actions) => {
+        try {
+            const { data } = await axiosInstance.post("/auth/signup", values);
+            if (data.success) {
+                toast.success(data.message);
+                navigate("/signin");
+            } else {
+                toast.error(data.message);
+            }
+        } catch (err) {
+            const errorMessage = err?.response?.data?.message || "Something went wrong";
+            if (err?.response?.status === 400) {
+                err.response.data.errors?.forEach(e => {
+                    actions.setFieldError(e.field, e.message);
+                })
+            }
+            console.error(err);
+            toast.error(errorMessage);
+        } finally {
+            actions.setSubmitting(false)
+        }
     }
-
 
     const {
         handleSubmit,
         getFieldProps,
-        values,
         errors,
-        isValid,
         isSubmitting,
+        isValid,
         touched
     } = useFormik({
         initialValues: {
+            email: emailFromQuery,
             username: "",
-            email: "",
             password: ""
         },
         validationSchema: signupValidationSchema,
@@ -52,26 +75,6 @@ export default function Signup() {
         <div className='bg-black/60 rounded-md shadow-lg mx-auto max-w-sm py-4 px-6'>
             <h1 className='text-xl font-semibold text-center mb-3'>Sign Up</h1>
             <form className='flex flex-col gap-y-3' onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username" className='block text-sm mb-1 text-gray-300'>Username</label>
-                    <input
-                        type="text"
-                        name='username'
-                        id="username"
-                        className={classNames('input input-bordered w-full bg-transparent', {
-                            "input-error": errors.username && touched.username
-                        })}
-                        placeholder='johndoe'
-                        {...getFieldProps("username")}
-                    />
-                    {
-                        touched.username && errors.username && <div className='mt-0.5 text-red-500 gap-x-1 text-xs flex items-center'>
-                            <XCircle size={18} />
-                            <p>{errors.username}</p>
-                        </div>
-                    }
-                    <p></p>
-                </div>
                 <div className=''>
                     <label htmlFor="email" className='block text-sm mb-1 text-gray-300'>Email</label>
                     <input
@@ -81,6 +84,7 @@ export default function Signup() {
                         className={classNames('input input-bordered w-full bg-transparent', {
                             "input-error": errors.email && touched.email
                         })}
+                        readOnly={isSubmitting}
                         placeholder='you@example.com'
                         {...getFieldProps("email")}
 
@@ -92,7 +96,29 @@ export default function Signup() {
                         </div>
                     }
                 </div>
-                <div className=''>
+                <div>
+                    <label htmlFor="username" className='block text-sm mb-1 text-gray-300'>Username</label>
+                    <input
+                        type="text"
+                        name='username'
+                        id="username"
+                        className={classNames('input input-bordered w-full bg-transparent', {
+                            "input-error": errors.username && touched.username
+                        })}
+                        placeholder='johndoe'
+                        readOnly={isSubmitting}
+                        {...getFieldProps("username")}
+                    />
+                    {
+                        touched.username && errors.username && <div className='mt-0.5 text-red-500 gap-x-1 text-xs flex items-center'>
+                            <XCircle size={18} />
+                            <p>{errors.username}</p>
+                        </div>
+                    }
+                    <p></p>
+                </div>
+
+                <div>
                     <label htmlFor="password" className='block text-sm mb-1 text-gray-300'>Password</label>
                     <input
                         type="password"
@@ -101,6 +127,7 @@ export default function Signup() {
                         className={classNames('input input-bordered w-full bg-transparent', {
                             "input-error": errors.password && touched.password
                         })}
+                        readOnly={isSubmitting}
                         placeholder="••••••••"
                         {...getFieldProps("password")}
                     />
@@ -112,7 +139,21 @@ export default function Signup() {
                     }
                 </div>
                 <div className='mt-2'>
-                    <button type="submit" className='btn bg-red-600 btn-block text-white btn-error'>Sign Up</button>
+                    <button
+                        type="submit"
+                        className='btn bg-red-600 btn-block text-white btn-error disabled:text-gray-400 disabled:!bg-red-500/40'
+                        disabled={isSubmitting || !isValid}
+                    >
+                        {
+                            isSubmitting ? (
+                                <>
+                                    <span>Signing Up...</span>
+                                    <ClipLoader size={20} color='#99a1af' />
+                                </>
+                            ) : "Sign Up"
+                        }
+
+                    </button>
                 </div>
                 <div className='flex gap-x-2 text-sm' >
                     <p className='text-gray-300'>Already have an account?</p>
@@ -121,6 +162,7 @@ export default function Signup() {
                     </Link>
                 </div>
             </form>
+
         </div>
     )
 }

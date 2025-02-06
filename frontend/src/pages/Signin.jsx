@@ -21,14 +21,10 @@ export default function Signup() {
         console.log(values);
     }
 
-
     const {
         handleSubmit,
         getFieldProps,
-        values,
         errors,
-        isValid,
-        isSubmitting,
         touched
     } = useFormik({
         initialValues: {
