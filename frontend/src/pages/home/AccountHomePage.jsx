@@ -1,9 +1,13 @@
-import React from 'react'
+import HeroSection from '../../components/HeroSection'
 
 export default function AccountHomePage() {
+    
+
     return (
-        <section>
-            <h1>The account home page shows when the user is authenticated</h1>
-        </section>
+        <>
+            <HeroSection />
+
+            
+        </>
     )
 }

@@ -1,5 +1,3 @@
-// components/HeroSection.jsx
-import React from 'react'
 import { ChevronRight } from "lucide-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -13,7 +11,7 @@ const emailValidationSchema = Yup.object().shape({
 })
 
 
-export default function HeroSection() {
+export default function LandingHeroSection() {
     const navigate = useNavigate();
 
     const onSubmit = (values, actions) => {

@@ -1,9 +1,8 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AuthHeader from './headers/AuthHeader ';
 import { useSelector } from 'react-redux';
 import PublicHeader from './headers/PublicHeader ';
-import HeroSection from "../components/landing/HeroSection";
+import LandingHeroSection from "./landing/landingHeroSection";
 
 export default function Layout() {
     const { isAuthenticated } = useSelector(state => state.auth);
@@ -13,9 +12,8 @@ export default function Layout() {
             {
                 isAuthenticated ? <AuthHeader /> : <div className='hero-bg'>
                     <PublicHeader />
-                    <HeroSection />
+                    <LandingHeroSection />
                 </div>
-
             }
             <main>
                 <Outlet />
