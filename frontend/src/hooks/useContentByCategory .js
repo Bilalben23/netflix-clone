@@ -1,11 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import useAxios from './useAxios'
 
-// there are two endpoints:
-// => /api/v1/tv/trending
-// => /api/v1/movie/trending
-
-export default function useTrendingContent(media) {
+export default function useContentByCategory(media, category) {
     const axiosInstance = useAxios();
 
     const validMedia = ["movie", "tv"];
@@ -14,9 +10,9 @@ export default function useTrendingContent(media) {
     }
 
     return useQuery({
-        queryKey: ["trendingContent", media],
+        queryKey: ["content-category", media, category],
         queryFn: async () => {
-            const { data } = await axiosInstance.get(`/${media}/trending`);
+            const { data } = await axiosInstance.get(`/${media}/category/${category}`);
             return data;
         }
     })

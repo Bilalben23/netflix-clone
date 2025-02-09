@@ -16,3 +16,11 @@ html {
     width: 100%;
     padding: 0;
 }
+
+.swiper-pagination-bullets {
+    bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+    background-color: white !important;
+}

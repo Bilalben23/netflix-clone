@@ -6,8 +6,9 @@ import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from '../utils/constants';
 
 export default function HeroSection() {
     const [searchParam] = useSearchParams();
-    const category = searchParam.get('category') || "movie";
-    const { data, isLoading, isError, error } = useTrendingContent(category);
+    const contentType = searchParam.get('media') || "movie";
+    const { data, isLoading, isError, error } = useTrendingContent(contentType);
+
 
     if (isError) {
         return <div className='h-screen w-full flex items-center justify-center text-white'>
@@ -41,8 +42,6 @@ export default function HeroSection() {
                 /> : <img src='../../assets/movieClipGif.gif' alt="movie-clip-gif" className='-z-50 absolute inset-0 size-full object-cover'
                 />
             }
-
-
             <div className='absolute inset-0 size-full bg-black/50 -z-50' aria-hidden />
 
             <div className='absolute size-full inset-0 flex px-8 md:px-16 lg:px-32 justify-center flex-col'>

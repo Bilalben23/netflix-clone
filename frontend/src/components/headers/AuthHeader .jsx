@@ -27,14 +27,14 @@ export default function AuthHeader() {
                 <nav className='hidden md:block'>
                     <ul className='flex items-center w-full justify-between gap-x-5 text-sm'>
                         <li>
-                            <Link to="/?category=movie" className='link link-hover'>Movies</Link>
+                            <Link to="/?media=movie" className='link link-hover'>Movies</Link>
                         </li>
                         <li>
-                            <Link to="/?category=tv" className='link link-hover'>TV Shows</Link>
+                            <Link to="/?media=tv" className='link link-hover'>TV Shows</Link>
                         </li>
 
                         {/* <li>
-                            <Link to="/?category=new-popular" className='link link-hover'>New & Popular</Link>
+                            <Link to="/?media=new-popular" className='link link-hover'>New & Popular</Link>
                         </li> */}
                         <li>
                             <Link to="/history" className='link link-hover'>Search History</Link>

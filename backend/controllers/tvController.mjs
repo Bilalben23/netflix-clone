@@ -38,8 +38,8 @@ export const getTvsByCategory = async (req, res) => {
         const validCategories = {
             popular: "popular",
             top_rated: "top_rated",
-            upcoming: "upcoming",
-            now_playing: "on_the_air"
+            on_the_air: "on_the_air",
+            airing_today: "airing_today"
         };
         if (!validCategories[category]) {
             return res.status(400).json({
