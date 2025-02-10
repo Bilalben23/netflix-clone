@@ -9,6 +9,7 @@ import PersistLogin from './components/PersistLogin';
 import RedirectAuthenticatedRoute from './components/RedirectAuthenticatedRoute ';
 import HomeScreen from './pages/home/HomeScreen';
 import ProtectedRoute from './components/ProtectedRoute';
+import Watch from './pages/Watch';
 
 
 export default function App() {
@@ -22,7 +23,7 @@ export default function App() {
             <Route index element={<HomeScreen />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path='/movies' element={<h1>Movies goes here...</h1>} />
+              <Route path="/watch/:id" element={<Watch />} />
 
               {/* protected routes goes here... */}
             </Route>

@@ -14,3 +14,5 @@ export const TV_CATEGORIES = [
     "popular",
     "top_rated"
 ]
+
+export const FALLBACK_IMG = "https://hwr.org.uk/wp-content/uploads/2016/11/placeholder-dark-600-400-729dad18518ecd2cd47afb63f9e6eb09.jpg"

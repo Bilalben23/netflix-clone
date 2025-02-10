@@ -1,14 +1,14 @@
 import { Info, Play, RefreshCcw } from 'lucide-react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useTrendingContent from '../hooks/useTrendingContent';
 import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from '../utils/constants';
+import Skeleton from 'react-loading-skeleton';
+import { useState } from 'react';
+import { Img } from 'react-image';
 
 
-export default function HeroSection() {
-    const [searchParam] = useSearchParams();
-    const contentType = searchParam.get('media') || "movie";
-    const { data, isLoading, isError, error } = useTrendingContent(contentType);
-
+export default function HeroSection({ media }) {
+    const { data, isLoading, isError, error } = useTrendingContent(media);
 
     if (isError) {
         return <div className='h-screen w-full flex items-center justify-center text-white'>
@@ -34,14 +34,18 @@ export default function HeroSection() {
 
     return (
         <div className='h-screen relative'>
-            {
-                data?.data?.backdrop_path ? <img
-                    src={`${ORIGINAL_IMG_BASE_URL}/${data?.data?.backdrop_path}`}
-                    alt="extraction-thumbnail"
+            <Img
+                src={`${ORIGINAL_IMG_BASE_URL}/${data?.data?.backdrop_path}`}
+                alt={data?.data?.title || data?.data?.name}
+                loader={<Skeleton className='-z-50 absolute object-cover inset-0 size-full' />}
+                unloader={<img
+                    src='../../assets/movieClipGif.gif'
+                    alt='movie-clip-gif'
                     className='-z-50 absolute inset-0 size-full object-cover'
-                /> : <img src='../../assets/movieClipGif.gif' alt="movie-clip-gif" className='-z-50 absolute inset-0 size-full object-cover'
-                />
-            }
+                />}
+
+                className='-z-50 absolute inset-0 size-full object-cover'
+            />
             <div className='absolute inset-0 size-full bg-black/50 -z-50' aria-hidden />
 
             <div className='absolute size-full inset-0 flex px-8 md:px-16 lg:px-32 justify-center flex-col'>
@@ -49,16 +53,16 @@ export default function HeroSection() {
                 <div className='w-full md:w-1/2 mt-6'>
                     {
                         isLoading
-                            ? <p className='skeleton bg-gray-500/50 w-42 h-7' aria-hidden />
+                            ? <Skeleton height={40} width={220} />
                             : <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-balance font-extrabold line-clamp-2'>{data?.data?.title || data?.data?.name}</h1>
                     }
 
                     {
                         isLoading
                             ? <div className='flex items-center gap-x-1 mt-1' aria-hidden>
-                                <p className='skeleton bg-gray-500/50 w-14 h-4' />
-                                <span className='text-gray-500/50 rounded'>|</span>
-                                <p className='skeleton bg-gray-500/50 w-10 h-4' />
+                                <Skeleton height={22} width={60} />
+                                <span className='text-[#181818] rounded'>|</span>
+                                <Skeleton height={22} width={45} />
                             </div>
                             : <p className='md:text-lg'>
                                 {data?.data?.release_date?.split("-")[0] || data?.data?.first_air_date?.split("-")[0]} | {data?.data?.adult ? "18+" : "PG-13"}</p>
@@ -66,12 +70,9 @@ export default function HeroSection() {
 
                     {
                         isLoading
-                            ? <div className='mt-4 flex flex-col gap-y-2' aria-hidden>
-                                <p className='w-full h-4 skeleton bg-gray-500/50'></p>
-                                <p className='w-[90%] h-4 skeleton  bg-gray-500/50 '></p>
-                                <p className='w-[95%] h-4 skeleton  bg-gray-500/50 '></p>
-                                <p className='w-3/4 h-4 skeleton  bg-gray-500/50 '></p>
-                                <p className='w-1/2 h-4 skeleton  bg-gray-500/50 '></p>
+                            ? <div className='mt-4 flex flex-col' aria-hidden>
+                                <Skeleton count={4} height={22} style={{ marginBlock: "5px" }} />
+                                <Skeleton height={22} width="60%" />
                             </div>
                             : <p className='mt-4 text-sm text-gray-200 line-clamp-5'>
                                 {data?.data?.overview}
@@ -81,8 +82,8 @@ export default function HeroSection() {
                     {
                         isLoading
                             ? <div className='flex mt-8 gap-x-4' aria-hidden>
-                                <div className='w-22 h-9 skeleton bg-gray-500/50' />
-                                <div className='w-26 h-9 skeleton bg-gray-500/50' />
+                                <Skeleton width={120} height={47} />
+                                <Skeleton width={140} height={47} />
                             </div>
                             : <div className='flex mt-8 gap-x-4'>
                                 <Link to={`/watch/${data?.data?.id}`} className='btn  text-black transition bg-white hover:opacity-90'>

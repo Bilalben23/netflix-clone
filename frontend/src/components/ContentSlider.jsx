@@ -1,14 +1,15 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import useContentByCategory from '../hooks/useContentByCategory ';
-import { SMALL_IMG_BASE_URL } from '../utils/constants';
+import { FALLBACK_IMG, SMALL_IMG_BASE_URL } from '../utils/constants';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Autoplay, Navigation, Pagination, FreeMode, Scrollbar } from "swiper/modules";
+import { Autoplay, Navigation, Pagination, FreeMode } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import "swiper/css/free-mode";
-import 'swiper/css/scrollbar';
+import Skeleton from 'react-loading-skeleton';
+import { Img } from 'react-image';
 
 
 export default function ContentSlider({ category }) {
@@ -26,21 +27,17 @@ export default function ContentSlider({ category }) {
             </p>
 
             <Swiper
-                modules={[Autoplay, Navigation, Pagination, FreeMode, Scrollbar]}
+                modules={[Autoplay, Navigation, Pagination, FreeMode]}
                 slidesPerView={1}
                 spaceBetween={10}
                 slidesPerGroup={1}
                 freeMode
-                scrollbar={{
-                    enabled: true
-                }}
                 grabCursor
-                // pagination={{
-                //     type: "fraction",
-                //     clickable: isLoading
-                // }}
                 speed={500}
                 rewind
+                pagination={{
+                    clickable: true
+                }}
                 navigation={{
                     prevEl: `.swiper-btn-prev-${category}`,
                     nextEl: `.swiper-btn-next-${category}`,
@@ -67,23 +64,29 @@ export default function ContentSlider({ category }) {
                 {
                     isLoading
                         ? Array(20).fill(null).map((_, index) => {
-                            return <SwiperSlide key={index} className='cursor-wait'>
-                                <div className='skeleton bg-gray-500/50  h-[300px] md:h-[210px]'></div>
-                                <p className='skeleton bg-gray-500/50 w-[90%] mt-2 h-4' />
+                            return <SwiperSlide key={index}>
+                                <Skeleton className='mb-1 aspect-video' borderRadius={0} />
+                                <Skeleton width="90%" className='ml-2' />
                             </SwiperSlide>
                         })
                         : data?.data?.map(item => (
                             <SwiperSlide key={item.id} className='select-none'>
                                 <Link to={`/watch/${item.id}`} className='relative group block'>
                                     <div className='overflow-hidden'>
-                                        <img
+                                        <Img
                                             src={`${SMALL_IMG_BASE_URL}/${item.backdrop_path}`}
                                             alt={item.title || item.name}
-                                            className="size-full object-cover transition-transform duration-300 md:group-hover:scale-125"
-                                            loading='lazy'
+                                            loader={<Skeleton className='aspect-video mb-1' borderRadius={0} />}
+                                            unloader={
+                                                <img
+                                                    src={FALLBACK_IMG}
+                                                    alt="fallback-img"
+                                                    className="aspect-video  transition-transform duration-300 md:group-hover:scale-125" />
+                                            }
+                                            className="aspect-video object-cover transition-transform duration-300 md:group-hover:scale-125"
                                         />
                                     </div>
-                                    <p className='mt-2 text-sm line-clamp-2 px-2 text-balance tec'>{item.title || item.name}</p>
+                                    <p className='mt-2 text-sm line-clamp-2 px-2 text-balance'>{item.title || item.name}</p>
                                 </Link>
                             </SwiperSlide>
                         ))
