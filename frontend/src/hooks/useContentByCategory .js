@@ -12,7 +12,7 @@ export default function useContentByCategory(media, category) {
     return useQuery({
         queryKey: ["content-category", media, category],
         queryFn: async () => {
-            const { data } = await axiosInstance.get(`/${media}/category/${category}`);
+            const { data } = await axiosInstance.get(`/api/v1/${media}/category/${category}`);
             return data;
         }
     })

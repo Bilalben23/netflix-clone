@@ -15,11 +15,6 @@ export default function AccountHomePage() {
         <>
             <HeroSection media={media} />
             <CategoryContentSection media={media} />
-
-
-
         </>
     )
 }
-
-// https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg

@@ -1,9 +1,8 @@
 import { Info, Play, RefreshCcw } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import useTrendingContent from '../hooks/useTrendingContent';
-import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from '../utils/constants';
+import { ORIGINAL_IMG_BASE_URL } from '../utils/constants';
 import Skeleton from 'react-loading-skeleton';
-import { useState } from 'react';
 import { Img } from 'react-image';
 
 
@@ -54,7 +53,7 @@ export default function HeroSection({ media }) {
                     {
                         isLoading
                             ? <Skeleton height={40} width={220} />
-                            : <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-balance font-extrabold line-clamp-2'>{data?.data?.title || data?.data?.name}</h1>
+                            : <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-balance font-extrabold line-clamp-2' title={data?.data?.title || data?.data?.name}>{data?.data?.title || data?.data?.name}</h1>
                     }
 
                     {
@@ -86,11 +85,11 @@ export default function HeroSection({ media }) {
                                 <Skeleton width={140} height={47} />
                             </div>
                             : <div className='flex mt-8 gap-x-4'>
-                                <Link to={`/watch/${data?.data?.id}`} className='btn  text-black transition bg-white hover:opacity-90'>
+                                <Link to={`/watch/${data?.data?.id}?media=${media}`} className='btn  text-black transition bg-white hover:opacity-90'>
                                     <Play className='size-6 inline-block fill-black' />
                                     <span>Play</span>
                                 </Link>
-                                <Link to={`/watch/${data?.data?.id}`} className='btn bg-gray-500/50 hover:bg-gray-500/60 transition'>
+                                <Link to={`/watch/${data?.data?.id}?media=${media}`} className='btn bg-gray-500/50 hover:bg-gray-500/60 transition'>
                                     <Info className='size-6' />
                                     <span>More info</span>
                                 </Link>

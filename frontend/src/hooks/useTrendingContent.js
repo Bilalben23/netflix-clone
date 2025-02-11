@@ -16,7 +16,7 @@ export default function useTrendingContent(media) {
     return useQuery({
         queryKey: ["trendingContent", media],
         queryFn: async () => {
-            const { data } = await axiosInstance.get(`/${media}/trending`);
+            const { data } = await axiosInstance.get(`/api/v1/${media}/trending`);
             return data;
         }
     })

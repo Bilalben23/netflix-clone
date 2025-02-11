@@ -10,7 +10,7 @@ export default function useLogout() {
 
     const signOut = async () => {
         try {
-            const { data } = await axiosInstance.get("/auth/logout", { withCredentials: true });
+            const { data } = await axiosInstance.get("/api/v1/auth/logout", { withCredentials: true });
             if (data.success) {
                 dispatch(logout());
                 navigate("/signin", { state: { from: location.pathname } });

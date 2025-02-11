@@ -65,3 +65,5 @@
 # Search for TV shows by their original, translated and also known as names.
 
 - GET: `https://api.themoviedb.org/3/search/tv`
+
+<!--  HATEOAS -->
