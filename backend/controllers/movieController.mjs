@@ -22,7 +22,7 @@ export const getTrendingMovie = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -63,7 +63,7 @@ export const getMoviesByCategory = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -90,7 +90,7 @@ export const getMovieTrailers = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -117,7 +117,7 @@ export const getMovieDetails = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -133,7 +133,7 @@ export const getSimilarMovies = async (req, res) => {
         const similarMovies = await fetchFromTMDB(`/movie/${id}/similar?language=en-US&page=1`)
 
         if (!similarMovies?.results?.length) {
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
                 message: "No Similar Movies found"
             })
@@ -145,7 +145,7 @@ export const getSimilarMovies = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })

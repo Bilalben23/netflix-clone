@@ -1,32 +1,33 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useTrailers from '../hooks/useTrailers';
 import useSimilarContent from '../hooks/useSimilarContent';
 import useContentDetails from '../hooks/useContentDetails';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Pagination } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Navigation, Pagination } from "swiper/modules";
 import Skeleton from 'react-loading-skeleton';
 import ReactPlayer from "react-player";
 import { useEffect, useRef } from 'react';
 import { Img } from 'react-image';
-import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from "../utils/constants";
+import { ORIGINAL_IMG_BASE_URL } from "../utils/constants";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import SwiperButton from '../components/ui/SwiperButton';
 import SwiperCarousel from '../components/ui/SwiperCarousel ';
 import ErrorMessage from '../components/ui/ErrorMessage ';
+import useQueryParams from '../hooks/useQueryParams';
+
 
 export default function Watch() {
-    const [searchParam] = useSearchParams();
-    const media = searchParam.get("media") || "movie";
+    const { getParam } = useQueryParams();
+    const media = getParam("media") || "movie";
     const { id } = useParams();
     const playersRef = useRef([]);
     const formattedMedia = media === "movie" ? "Movies" : "TV Shows";
 
 
     const handleSlideChange = (swiper) => {
-        if (playersRef.current[swiper.previousIndex]) {
+        if (playersRef.current[swiper.previousIndex]?.getInternalPlayer) {
             playersRef.current[swiper.previousIndex]?.getInternalPlayer()?.pauseVideo();
         }
     };
@@ -57,12 +58,6 @@ export default function Watch() {
         window.scrollTo(0, 0)
     }, [id, media])
 
-    console.log("trailers: ");
-    console.log(trailers);
-    console.log("Similar content: ");
-    console.log(similarContent);
-    console.log("Content details");
-    console.log(contentDetails);
 
     return (
         <div className='mt-18 p-5 md:p-10 w-full md:w-[90%] mx-auto lg:w-[80%]'>
@@ -179,7 +174,7 @@ export default function Watch() {
                         <Img
                             src={`${ORIGINAL_IMG_BASE_URL}/${contentDetails?.data?.poster_path}`}
                             alt={`${contentDetails?.data?.title || contentDetails?.data?.name} poster`}
-                            loader={<Skeleton className='size-full aspect-[4/5] h-[400px] md:h-[500px]' />}
+                            loader={<Skeleton className='size-full aspect-[4/5] h-[400px] md:h-[500px]' borderRadius={0} />}
                             className='size-full object-fit'
                             unloader={<img
                                 src="../../assets/poster_placeholder.png"
@@ -221,7 +216,7 @@ export default function Watch() {
                                 <p className="text-lg font-semibold text-gray-300">No similar movies or TV shows available right now.</p>
                                 <p className="text-sm text-gray-400 mt-1">Check back later for recommendations.</p>
                             </div>
-                        : <ErrorMessage message={error} />
+                        : <ErrorMessage message={similarContentError?.message} />
                 }
             </div>
         </div>

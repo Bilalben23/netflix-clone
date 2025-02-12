@@ -5,14 +5,13 @@ export default function useContentByCategory(media, category) {
     const axiosInstance = useAxios();
 
     const validMedia = ["movie", "tv"];
-    if (!validMedia.includes(media)) {
-        media = "movie";
-    }
+    const finalMedia = validMedia.includes(media) ? media : "movie";
+
 
     return useQuery({
-        queryKey: ["content-category", media, category],
+        queryKey: ["content-category", finalMedia, category],
         queryFn: async () => {
-            const { data } = await axiosInstance.get(`/api/v1/${media}/category/${category}`);
+            const { data } = await axiosInstance.get(`/api/v1/${finalMedia}/category/${category}`);
             return data;
         }
     })

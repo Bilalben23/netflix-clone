@@ -25,7 +25,7 @@ export default function Signup() {
 
     const onSubmit = async (values, actions) => {
         try {
-            const { data } = await axiosInstance.post("/auth/login", values);
+            const { data } = await axiosInstance.post("/api/v1/auth/login", values);
             if (data.success) {
                 dispatch(login({ user: { ...data.user }, accessToken: data.accessToken }))
                 toast.success(data.message);

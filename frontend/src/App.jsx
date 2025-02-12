@@ -10,6 +10,7 @@ import RedirectAuthenticatedRoute from './components/RedirectAuthenticatedRoute 
 import HomeScreen from './pages/home/HomeScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import Watch from './pages/Watch';
+import SearchHub from './pages/SearchHub';
 
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route path="/watch/:id" element={<Watch />} />
+              <Route path="/search" element={<SearchHub />} />
 
               {/* protected routes goes here... */}
             </Route>

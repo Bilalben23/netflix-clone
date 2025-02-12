@@ -103,7 +103,7 @@ export const searchMovie = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -161,7 +161,7 @@ export const searchTv = async (req, res) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
@@ -184,7 +184,7 @@ export const getSearchHistory = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         });
@@ -216,7 +216,7 @@ export const removeItemFromSearchHistory = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         });

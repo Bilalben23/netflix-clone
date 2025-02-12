@@ -44,7 +44,7 @@ export default function AuthHeader() {
 
             </div>
             <div className='flex items-center gap-x-1.5 md:gap-x-2'>
-                <Link to="#" className='block p-2 transition hover:opacity-90'>
+                <Link to="/search" className='block p-2 transition hover:opacity-90'>
                     <Search className='size-6' />
                 </Link>
                 <div>

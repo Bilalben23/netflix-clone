@@ -4,15 +4,17 @@ import useAxios from './useAxios'
 export default function useTrailers(media, mediaId) {
     const axiosInstance = useAxios();
     const validMedia = ["movie", "tv"];
-    if (!validMedia.includes(media)) {
-        media = "movie";
-    }
+    const finalMedia = validMedia.includes(media) ? media : "movie";
+
     return useQuery({
-        queryKey: ["trailers", media, mediaId],
+        queryKey: ["trailers", finalMedia, mediaId],
         queryFn: async () => {
-            console.log(media, mediaId)
-            const { data } = await axiosInstance.get(`/api/v1/${media}/${mediaId}/trailers`);
+            if (!mediaId) {
+                throw new Error("MediaId is required to fetch trailers.")
+            }
+            const { data } = await axiosInstance.get(`/api/v1/${finalMedia}/${mediaId}/trailers`);
             return data;
-        }
+        },
+        enabled: !!mediaId
     })
 }

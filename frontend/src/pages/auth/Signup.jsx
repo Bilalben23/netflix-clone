@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames";
@@ -7,6 +7,7 @@ import { XCircle } from "lucide-react";
 import axiosInstance from '../../services/axiosInstance';
 import toast from 'react-hot-toast';
 import { ClipLoader } from "react-spinners"
+import useQueryParams from '../../hooks/useQueryParams';
 
 const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 const signupValidationSchema = Yup.object().shape({
@@ -25,14 +26,14 @@ const signupValidationSchema = Yup.object().shape({
 
 
 export default function Signup() {
-    const [searchParams] = useSearchParams();
-    const emailFromQuery = searchParams.get('email') || '';
+    const { getParam } = useQueryParams();
+    const emailFromQuery = getParam('email') || '';
     const navigate = useNavigate();
 
 
     const onSubmit = async (values, actions) => {
         try {
-            const { data } = await axiosInstance.post("/auth/signup", values);
+            const { data } = await axiosInstance.post("/api/v1/auth/signup", values);
             if (data.success) {
                 toast.success(data.message);
                 navigate("/signin");

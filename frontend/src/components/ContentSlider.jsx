@@ -1,13 +1,13 @@
-import { useSearchParams } from 'react-router-dom';
 import useContentByCategory from '../hooks/useContentByCategory ';
 import SwiperButton from './ui/SwiperButton';
 import SwiperCarousel from './ui/SwiperCarousel ';
 import ErrorMessage from './ui/ErrorMessage ';
+import useQueryParams from '../hooks/useQueryParams';
 
 
 export default function ContentSlider({ category }) {
-    const [searchParam] = useSearchParams();
-    const media = searchParam.get("media") || "movie";
+    const { getParam } = useQueryParams();
+    const media = getParam("media") || "movie";
     const formattedMedia = media === "movie" ? "Movies" : "TV Shows";
     const formattedCategoryName = category.replaceAll("_", " ");
 

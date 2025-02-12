@@ -128,7 +128,6 @@ export const getSimilarTvs = async (req, res) => {
     const { id } = req.params;
 
     try {
-
         const similarTvs = await fetchFromTMDB(`/tv/${id}/similar?language=en-US&page=1`)
 
         if (!similarTvs?.results?.length) {
