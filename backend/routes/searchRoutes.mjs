@@ -10,11 +10,11 @@ import {
 
 const router = Router();
 
-router.get("/person/:query", searchPerson);
+router.get("/person", searchPerson);
 
-router.get("/movie/:query", searchMovie);
+router.get("/movie", searchMovie);
 
-router.get("/tv/:query", searchTv);
+router.get("/tv", searchTv);
 
 router.get("/history", getSearchHistory);
 

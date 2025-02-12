@@ -1,51 +1,75 @@
 import { User } from "../models/userModel.mjs";
 import { fetchFromTMDB } from "../services/tmdbService.mjs";
+import { SEARCH_TYPES } from "../utils/enums.mjs";
 
 
-export const searchPerson = async (req, res) => {
-    const { query } = req.params;
+const updateSearchHistory = async (userId, reference_id, image, title, searchType) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) return;
 
-    if (!query || query.trim() === '') {
+        const exists = user.searchHistory.some(item => item.reference_id === reference_id);
+
+        if (!exists) {
+            if (user.searchHistory.length >= 60) {
+                user.searchHistory.shift();
+            }
+
+            user.searchHistory.push({
+                reference_id,
+                image,
+                title,
+                searchType
+            })
+
+            await user.save();
+        }
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
+}
+
+
+export const searchEntity = async (req, res, type) => {
+    const { query } = req.query;
+
+    if (!query || query.trim() === "") {
         return res.status(400).json({
-            success: true,
+            success: false,
             message: "Search query cannot be empty"
         })
     }
 
-    try {
-        const data = await fetchFromTMDB(`/search/person?query=${query}&include_adult=false&language=en-US&page=1`)
+    const endpoint = `/search/${type}?query=${query}&include_adult=false&language=en-US&page=1`;
 
-        if (!data?.results?.length) {
+    try {
+        const data = await fetchFromTMDB(endpoint);
+
+        if (!data.results?.length) {
             return res.status(404).json({
                 success: false,
-                message: "No results found for the searched person."
+                message: `No results found for ${type}.`
             })
         }
 
-        const personInHistory = await User.findOne({
-            _id: req.user._id,
-            "searchHistory.id": data.results[0].id
-        })
+        const firstResult = data.results[0];
+        const referencedId = firstResult.id;
+        const image = firstResult.poster_path || firstResult.profile_path;
+        const title = firstResult.title || firstResult.name;
+        const searchType = SEARCH_TYPES[type.toUpperCase()];
 
-        if (!personInHistory) {
-            await User.findByIdAndUpdate(req.user._id, {
-                $push: {
-                    searchHistory: {
-                        id: data.results[0].id,
-                        image: data.results[0].profile_path,
-                        title: data.results[0].name,
-                        searchType: "person",
-                        createdAt: Date.now()
-                    }
-                }
-            })
-        }
+        await updateSearchHistory(req.user._id, referencedId, image, title, searchType);
 
         res.status(200).json({
             success: true,
-            message: `Found ${data.results.length} result(s) for person: ${query}.`,
+            message: `Found ${data.results.length} result(s) for ${type}: "${query}".`,
             data: data.results
         })
+
     } catch (err) {
         res.status(500).json({
             success: false,
@@ -55,170 +79,85 @@ export const searchPerson = async (req, res) => {
 }
 
 
-export const searchMovie = async (req, res) => {
-    const { query } = req.params;
-
-    if (!query || query.trim() === '') {
-        return res.status(400).json({
-            success: true,
-            message: "Search query cannot be empty"
-        })
-    }
-
-    try {
-        const data = await fetchFromTMDB(`/search/movie?query=${query}&include_adult=false&language=en-US&page=1`);
-
-        if (!data?.results?.length) {
-            return res.status(404).json({
-                success: false,
-                message: "No results found for the searched movie."
-            })
-        }
-
-        const firstMovie = data.results[0];
-
-        const movieInHistory = await User.findOne({
-            _id: req.user._id,
-            "searchHistory": firstMovie.id
-        })
-
-        if (!movieInHistory) {
-            await User.findByIdAndUpdate(req.user._id, {
-                $push: {
-                    searchHistory: {
-                        id: firstMovie.id,
-                        image: firstMovie.poster_path,
-                        title: firstMovie.title,
-                        searchType: "movie",
-                        createdAt: Date.now()
-                    }
-                }
-            })
-        }
-
-        res.status(200).json({
-            success: true,
-            message: `Found ${data.results.length} result(s) for movie: "${query}".`,
-            data: data.results
-        })
-
-    } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: "Internal Server Error"
-        })
-    }
-}
-
-export const searchTv = async (req, res) => {
-    const { query } = req.params;
-
-    if (!query || query.trim() === '') {
-        return res.status(400).json({
-            success: true,
-            message: "Search query cannot be empty"
-        })
-    }
-
-    try {
-        const data = await fetchFromTMDB(`/search/tv?query=${query}&include_adult=false&language=en-US&page=1`);
+export const searchPerson = (req, res) => searchEntity(req, res, "person");
+export const searchMovie = (req, res) => searchEntity(req, res, "movie");
+export const searchTv = (req, res) => searchEntity(req, res, "tv");
 
 
-        if (!data?.results?.length) {
-            return res.status(404).json({
-                success: false,
-                message: "No results found for the searched movie."
-            })
-        }
-
-        const firstTv = data.results[0];
-
-
-        const tvInHistory = await User.findOne({
-            _id: req.user._id,
-            "searchHistory.id": firstTv.id
-        })
-
-        if (!tvInHistory) {
-            await User.findByIdAndUpdate(req.user._id, {
-                $push: {
-                    searchHistory: {
-                        id: firstTv.id,
-                        image: firstTv.poster_path,
-                        title: firstTv.name,
-                        searchType: "tv",
-                        createdAt: Date.now()
-                    }
-                }
-            })
-        }
-
-
-        res.status(200).json({
-            success: true,
-            message: `Found ${data.results.length} result(s) for TV show: "${query}".`,
-            data: data.results
-        })
-
-    } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: "Internal Server Error"
-        })
-    }
-}
 
 export const getSearchHistory = async (req, res) => {
     try {
+        const page = parseInt(req.query?.page) || 1;
+        const limit = 20;
+        const searchHistory = req.user?.searchHistory || [];
 
-        if (!req.user.searchHistory.length) {
-            return res.status(404).json({
-                success: false,
-                message: "No search history found."
-            });
-        }
+        const totalItems = searchHistory.length;
+        const totalPages = Math.ceil(totalItems / limit);
+        const currentPage = Math.min(Math.max(1, page), totalPages || 1);
+        const startIndex = (currentPage - 1) * limit;
+        const endIndex = startIndex + limit;
+
+        const paginatedHistory = searchHistory.slice(startIndex, endIndex);
 
         res.status(200).json({
             success: true,
-            data: req.user.searchHistory
+            pagination: {
+                currentPage,
+                totalPages,
+                totalItems,
+                hasMore: currentPage < totalPages
+            },
+            data: paginatedHistory
         });
 
     } catch (err) {
-        return res.status(500).json({
+        console.error("Error fetching search history:", err);
+        res.status(500).json({
             success: false,
             message: "Internal Server Error"
         });
     }
-}
+};
+
 
 export const removeItemFromSearchHistory = async (req, res) => {
-    const { id } = req.params;
     try {
-        // Find the user and remove the item from searchHistory
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: "Item ID is required."
+            })
+        }
+
         const result = await User.findByIdAndUpdate(
             req.user._id,
-            { $pull: { searchHistory: { id: +id } } },
-            { new: true }
-        );
+            {
+                $pull: {
+                    searchHistory: {
+                        _id: id
+                    }
+                }
+            }, { new: true }
+        )
 
-        // Check if the item was actually removed
-        if (!result.searchHistory.find(item => item.id === +id)) {
+        if (!result) {
             return res.status(404).json({
                 success: false,
-                message: "Item not found in search history"
-            });
+                message: "user not found."
+            })
         }
 
         res.status(200).json({
             success: true,
-            message: "Item removed successfully from search history",
+            message: "Item removed successfully from search history.",
             data: result.searchHistory
-        });
+        })
 
     } catch (err) {
         return res.status(500).json({
             success: false,
             message: "Internal Server Error"
-        });
+        })
     }
 }
