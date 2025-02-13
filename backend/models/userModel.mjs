@@ -4,7 +4,7 @@ import { SEARCH_TYPES } from "../utils/enums.mjs";
 
 const searchHistorySchema = new mongoose.Schema({
     reference_id: {
-        type: String,
+        type: Number,
         required: true
     },
     image: {

@@ -56,7 +56,7 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
             }}
         >
             {isLoading
-                ? Array(20).fill(null).map((_, index) => (
+                ? Array.from({ length: 20 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <Skeleton className='mb-1 aspect-video' borderRadius={0} />
                         <Skeleton width="90%" className='ml-2' />
@@ -72,7 +72,7 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                                     loader={<Skeleton className='aspect-video mb-1' borderRadius={0} />}
                                     unloader={
                                         <img
-                                            src="../../assets/img_placeholder.jpg"
+                                            src="/assets/img_placeholder.jpg"
                                             alt="img-placeholder"
                                             className="aspect-video transition-transform duration-300 md:group-hover:scale-125"
                                         />

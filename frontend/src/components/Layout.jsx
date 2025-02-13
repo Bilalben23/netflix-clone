@@ -10,10 +10,12 @@ export default function Layout() {
     return (
         <>
             {
-                isAuthenticated ? <AuthHeader /> : <div className='hero-bg'>
-                    <PublicHeader />
-                    <LandingHeroSection />
-                </div>
+                isAuthenticated
+                    ? <AuthHeader />
+                    : <div className='hero-bg'>
+                        <PublicHeader />
+                        <LandingHeroSection />
+                    </div>
             }
             <main>
                 <Outlet />

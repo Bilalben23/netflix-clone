@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import SwiperButton from '../components/ui/SwiperButton';
 import SwiperCarousel from '../components/ui/SwiperCarousel ';
-import ErrorMessage from '../components/ui/ErrorMessage ';
+import ErrorMessage from '../components/ui/ErrorMessage';
 import useQueryParams from '../hooks/useQueryParams';
 
 
@@ -108,7 +108,7 @@ export default function Watch() {
                                 })
                                 : <SwiperSlide>
                                     <div className="flex w-full bg-[#181818] aspect-video flex-col items-center justify-center p-10 text-center">
-                                        <img src="../../assets/netflix-logo.png" alt="Netflix Logo" className="w-22 mb-4" />
+                                        <img src="/netflix-logo.png" alt="Netflix Logo" className="w-22 mb-4" />
                                         <p className="text-lg font-semibold text-gray-300">No trailers available for {formattedMedia} at the moment.</p>
                                         <p className="text-sm text-gray-400 mt-1">Check back later for updates.</p>
                                     </div>
@@ -177,7 +177,7 @@ export default function Watch() {
                             loader={<Skeleton className='size-full aspect-[4/5] h-[400px] md:h-[500px]' borderRadius={0} />}
                             className='size-full object-fit'
                             unloader={<img
-                                src="../../assets/poster_placeholder.png"
+                                src="/assets/poster_placeholder.png"
                                 alt='fallback-img'
                                 className='size-full object-fit'
                             />}
@@ -212,7 +212,7 @@ export default function Watch() {
                                 />
                             </div>
                             : <div className="flex flex-col items-center justify-center p-8 text-center">
-                                <img src="../../assets/netflix-logo.png" alt="Netflix Logo" className="w-16 mb-4" />
+                                <img src="/assets/netflix-logo.png" alt="Netflix Logo" className="w-16 mb-4" />
                                 <p className="text-lg font-semibold text-gray-300">No similar movies or TV shows available right now.</p>
                                 <p className="text-sm text-gray-400 mt-1">Check back later for recommendations.</p>
                             </div>

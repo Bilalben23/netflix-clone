@@ -26,7 +26,7 @@ export default function HeroSection({ media }) {
             </div>
             <div className='flex-1 h-full relative'>
                 <div className="bg-gradient-to-b from-black/60 via-black/30 to-black/10 absolute size-full inset-0 z-10" />
-                <img src="../../assets/astronautFalling.jpg" alt="astronaut-falling" className='size-full' />
+                <img src="/assets/astronautFalling.jpg" alt="astronaut-falling" className='size-full' />
             </div>
         </div>
     }
@@ -38,7 +38,7 @@ export default function HeroSection({ media }) {
                 alt={data?.data?.title || data?.data?.name}
                 loader={<Skeleton className='-z-50 absolute object-cover inset-0 size-full' />}
                 unloader={<img
-                    src='../../assets/movieClipGif.gif'
+                    src='/assets/movieClipGif.gif'
                     alt='movie-clip-gif'
                     className='-z-50 absolute inset-0 size-full object-cover'
                 />}

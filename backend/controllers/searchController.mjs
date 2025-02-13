@@ -7,7 +7,6 @@ const updateSearchHistory = async (userId, reference_id, image, title, searchTyp
     try {
         const user = await User.findById(userId);
         if (!user) return;
-
         const exists = user.searchHistory.some(item => item.reference_id === reference_id);
 
         if (!exists) {
@@ -58,7 +57,7 @@ export const searchEntity = async (req, res, type) => {
 
         const firstResult = data.results[0];
         const referencedId = firstResult.id;
-        const image = firstResult.poster_path || firstResult.profile_path;
+        const image = firstResult?.poster_path || firstResult?.profile_path;
         const title = firstResult.title || firstResult.name;
         const searchType = SEARCH_TYPES[type.toUpperCase()];
 
@@ -71,24 +70,21 @@ export const searchEntity = async (req, res, type) => {
         })
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal Server Error"
         })
     }
 }
 
-
 export const searchPerson = (req, res) => searchEntity(req, res, "person");
 export const searchMovie = (req, res) => searchEntity(req, res, "movie");
 export const searchTv = (req, res) => searchEntity(req, res, "tv");
 
-
-
 export const getSearchHistory = async (req, res) => {
     try {
         const page = parseInt(req.query?.page) || 1;
-        const limit = 20;
+        const limit = 12;
         const searchHistory = req.user?.searchHistory || [];
 
         const totalItems = searchHistory.length;

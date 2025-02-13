@@ -1,7 +1,7 @@
 import useContentByCategory from '../hooks/useContentByCategory ';
 import SwiperButton from './ui/SwiperButton';
 import SwiperCarousel from './ui/SwiperCarousel ';
-import ErrorMessage from './ui/ErrorMessage ';
+import ErrorMessage from './ui/ErrorMessage';
 import useQueryParams from '../hooks/useQueryParams';
 
 
@@ -38,7 +38,7 @@ export default function ContentSlider({ category }) {
                             media={media}
                         />
                     </div>
-                    : <ErrorMessage message={error} />
+                    : <ErrorMessage message={error?.message} />
             }
         </div>
     )

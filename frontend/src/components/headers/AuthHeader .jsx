@@ -3,6 +3,7 @@ import useLogout from '../../hooks/useLogout';
 import { Link } from 'react-router-dom';
 import { LogOut, Menu, Search } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import GlobalLoader from '../GlobalLoader';
 
 export default function AuthHeader() {
     const { user } = useSelector(state => state.auth);
@@ -20,7 +21,7 @@ export default function AuthHeader() {
         <header className='flex w-full items-center justify-between py-4 mx-auto max-w-6xl px-4 md:px-10 lg:px-16 fixed top-0 z-50'>
             <div className='flex items-center md:gap-x-10'>
                 <button type='button' className='cursor-pointer'>
-                    <img src="../../assets/netflix-logo.png" alt="logo" className='w-20 md:w-24 lg:28' />
+                    <img src="/assets/netflix-logo.png" alt="logo" className='w-20 md:w-24 lg:28' />
                 </button>
 
                 {/* Desktop menu */}
@@ -48,7 +49,7 @@ export default function AuthHeader() {
                     <Search className='size-6' />
                 </Link>
                 <div>
-                    <img src={`../../assets/${user.image}`} alt="profile-image" className='w-5 md:w-7 rounded-sm' />
+                    <img src={`/assets/${user.image}`} alt="profile-image" className='w-5 md:w-7 rounded-sm' />
                 </div>
                 <button type='button' className="p-2 cursor-pointer transition hover:opacity-90" onClick={signOut}>
                     <LogOut className='size-6' />
@@ -80,6 +81,7 @@ export default function AuthHeader() {
                     </ul>
                 </nav>
             </div>
+            <GlobalLoader />
         </header>
     )
 }

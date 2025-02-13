@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useRefreshToken from '../hooks/useRefreshToken';
 import { Outlet } from "react-router-dom";
-import { MoonLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 export default function PersistLogin() {
     const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export default function PersistLogin() {
             {
                 loading ?
                     <div className='h-screen flex items-center justify-center'>
-                        <MoonLoader size={30} color='white' />
+                        <PropagateLoader size={60} color='white' />
                     </div>
                     : <Outlet />
             }

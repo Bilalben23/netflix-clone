@@ -8,7 +8,7 @@ export default function AuthLayout() {
                 <div className='flex items-center justify-end'>
                     <Link to="/" className="cursor-pointer hover:opacity-80 transition">
                         <img
-                            src='../assets/netflix-logo.png'
+                            src='/assets/netflix-logo.png'
                             alt='netflix-logo'
                             className='w-40 p-1'
                         />

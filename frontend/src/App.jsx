@@ -11,6 +11,8 @@ import HomeScreen from './pages/home/HomeScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import Watch from './pages/Watch';
 import SearchHub from './pages/SearchHub';
+import SearchHistory from './pages/SearchHistory';
+import NotFound from './pages/NotFound';
 
 
 export default function App() {
@@ -26,6 +28,7 @@ export default function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/watch/:id" element={<Watch />} />
               <Route path="/search" element={<SearchHub />} />
+              <Route path="/history" element={<SearchHistory />} />
 
               {/* protected routes goes here... */}
             </Route>
@@ -40,6 +43,9 @@ export default function App() {
           </Route>
 
         </Route>
+
+        {/* NotFound Route (Catch-All) */}
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

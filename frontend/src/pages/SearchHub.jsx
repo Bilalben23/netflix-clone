@@ -100,17 +100,17 @@ export default function SearchHub() {
                         ? <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12 mt-15'>
                             {
                                 isLoading
-                                    ? Array(20).fill(null).map((_, index) => {
-                                        return <div className='aspect-[2/3]'>
+                                    ? Array.from({ length: 20 }).map((_, index) => (
+                                        <div className='aspect-[2/3]'>
                                             <Skeleton key={index} className='size-full' width="100%" borderRadius={0} />
                                             <Skeleton height={25} className='mt-2' />
                                         </div>
-                                    })
+                                    ))
                                     : data?.data?.map(item => {
                                         if (!item?.profile_path && !item?.poster_path) return null;
                                         const isPerson = activeTab === "person";
                                         const imagePath = isPerson ? item?.profile_path : item?.poster_path;
-                                        const linkTo = isPerson ? `/actor/${item?.id}` : `/watch/${item?.id}`;
+                                        const linkTo = isPerson ? `/actor/${item?.id}` : `/watch/${item?.id}?media=${activeTab}`;
                                         let imgPlaceholder = ""
                                         if (isPerson) {
                                             if (item?.gender === 1) {
@@ -131,7 +131,7 @@ export default function SearchHub() {
                                                     alt={item?.name || item?.title}
                                                     loader={<Skeleton className='aspect-[2/3]' width="100%" borderRadius={0} />}
                                                     unloader={
-                                                        <img src={`../../assets/${imgPlaceholder}`} className='size-full' alt={`${activeTab}-placeholder`} />
+                                                        <img src={`/assets/${imgPlaceholder}`} className='size-full' alt={`${activeTab}-placeholder`} />
                                                     }
                                                     className='size-full object-cover  transition-transform hover:scale-105 duration-300'
                                                 />
