@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import Signin from './pages/auth/Signin';
 import Signup from './pages/auth/Signup';
 import AuthLayout from './components/AuthLayout';
-import Footer from './components/Footer';
 import PersistLogin from './components/PersistLogin';
 import RedirectAuthenticatedRoute from './components/RedirectAuthenticatedRoute ';
 import HomeScreen from './pages/home/HomeScreen';
@@ -47,7 +46,6 @@ export default function App() {
         {/* NotFound Route (Catch-All) */}
         <Route path='*' element={<NotFound />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   )
 }

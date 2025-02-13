@@ -3,6 +3,7 @@ import AuthHeader from './headers/AuthHeader ';
 import { useSelector } from 'react-redux';
 import PublicHeader from './headers/PublicHeader ';
 import LandingHeroSection from "./landing/landingHeroSection";
+import Footer from './Footer';
 
 export default function Layout() {
     const { isAuthenticated } = useSelector(state => state.auth);
@@ -20,6 +21,7 @@ export default function Layout() {
             <main>
                 <Outlet />
             </main>
+            <Footer />
         </>
     )
 }
