@@ -18,7 +18,7 @@ export default function Layout() {
                         <LandingHeroSection />
                     </div>
             }
-            <main>
+            <main className='mb-20'>
                 <Outlet />
             </main>
             <Footer />
