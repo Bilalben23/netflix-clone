@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    getTrendingMovie,
+    getPopularMovie,
     getMovieTrailers,
     getMovieDetails,
     getSimilarMovies,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.get("/trending", getTrendingMovie);
+router.get("/popular", getPopularMovie);
 
 router.get("/category/:category", getMoviesByCategory);
 

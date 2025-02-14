@@ -15,7 +15,6 @@ export const fetchFromTMDB = async (endpoint) => {
         const { data } = await axios.get(url, config);
         return data;
     } catch (err) {
-        console.error("Error fetching from TMDB:", err.response?.data || err.message);
         return null;
     }
 };

@@ -34,6 +34,9 @@ export default function AuthHeader() {
                             <Link to="/?media=tv" className='link link-hover'>TV Shows</Link>
                         </li>
                         <li>
+                            <Link to="/trending" className='link link-hover'>Trending</Link>
+                        </li>
+                        <li>
                             <Link to="/history" className='link link-hover'>Search History</Link>
                         </li>
                     </ul>

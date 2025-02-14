@@ -6,12 +6,14 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import { configurePassport } from './config/passport.mjs';
+import { authenticateJWT } from './middlewares/authMiddleware.mjs';
+import { errorHandler } from './middlewares/errorHandler.mjs';
 import authRoutes from "./routes/authRoutes.mjs";
 import movieRoutes from "./routes/movieRoutes.mjs";
 import tvRoutes from "./routes/tvRoutes.mjs";
 import searchRoutes from "./routes/searchRoutes.mjs";
-import { authenticateJWT } from './middlewares/authMiddleware.mjs';
-import { errorHandler } from './middlewares/errorHandler.mjs';
+import trendingRoutes from "./routes/trendingRoutes.mjs";
+
 
 const app = express();
 
@@ -38,6 +40,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", authenticateJWT, movieRoutes);
 app.use("/api/v1/tv", authenticateJWT, tvRoutes);
 app.use("/api/v1/search", authenticateJWT, searchRoutes);
+app.use("/api/v1/trending", trendingRoutes);
 
 app.use(errorHandler);
 

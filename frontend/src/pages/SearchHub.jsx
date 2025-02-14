@@ -15,7 +15,6 @@ export default function SearchHub() {
     const activeTab = getParam("tab") || "movie";
     const searchTerm = getParam("search") || "";
 
-
     const { handleSubmit, getFieldProps, resetForm } = useFormik({
         initialValues: { searchTerm: "" },
         onSubmit: (values) => {
@@ -24,11 +23,12 @@ export default function SearchHub() {
         validationSchema: Yup.object({
             searchTerm: Yup.string()
                 .trim()
-                .required("search term is required")
+                .required("Search term is required")
         })
     })
 
     const { data, isLoading, isError, error } = useSearch(activeTab, searchTerm)
+    console.log(data);
 
     function handleTabClick(tab) {
         setParam("tab", tab);
@@ -43,9 +43,10 @@ export default function SearchHub() {
         window.scrollTo(0, 0);
     }, [])
 
+
+
     return (
         <div className='min-h-screen pt-18 mb-22'>
-
             <div className='container mx-auto px-4'>
 
                 {/* Nav buttons */}
@@ -101,7 +102,7 @@ export default function SearchHub() {
                             {
                                 isLoading
                                     ? Array.from({ length: 20 }).map((_, index) => (
-                                        <div className='aspect-[2/3]'>
+                                        <div className='aspect-[2/3]' key={index}>
                                             <Skeleton key={index} className='size-full' width="100%" borderRadius={0} />
                                             <Skeleton height={25} className='mt-2' />
                                         </div>
@@ -127,7 +128,7 @@ export default function SearchHub() {
                                         return <Link to={linkTo} key={item?.id} className='block bg-slate-900 pb-2' title='Click to see more details'>
                                             <div className='mb-2 aspect-[2/3] min-w-full max-h-[400px] overflow-hidden border border-gray-900'>
                                                 <Img
-                                                    src={`${ORIGINAL_IMG_BASE_URL}/${imagePath}`}
+                                                    src={`${ORIGINAL_IMG_BASE_URL}${imagePath}`}
                                                     alt={item?.name || item?.title}
                                                     loader={<Skeleton className='aspect-[2/3]' width="100%" borderRadius={0} />}
                                                     unloader={
@@ -138,7 +139,6 @@ export default function SearchHub() {
                                             </div>
                                             <p className='font-semibold md:text-lg px-2 text-center line-clamp-2'>{item?.name || item?.title}</p>
                                         </Link>
-
                                     })
                             }
                         </div>
@@ -156,9 +156,9 @@ export default function SearchHub() {
                                 )}
                             </div>
                         </div>
-
                 }
             </div>
         </div>
     )
 }
+

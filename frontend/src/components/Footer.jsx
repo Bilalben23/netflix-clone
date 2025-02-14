@@ -7,9 +7,7 @@ export default function Footer() {
             <p className="text-gray-400">
                 Built with <FaHeart className="inline text-red-500 animate-pulse mx-1" /> by{' '}
                 <a
-                    href="www.linkedin.com/in/bilal-benyoussef-b38a27251
-
-"
+                    href="https://www.linkedin.com/in/bilal-benyoussef-b38a27251"
                     target="_blank"
                     rel="noreferrer"
                     className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-semibold hover:from-purple-500 hover:to-blue-400 transition-all duration-300"

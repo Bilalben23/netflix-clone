@@ -12,6 +12,7 @@ import Watch from './pages/Watch';
 import SearchHub from './pages/SearchHub';
 import SearchHistory from './pages/SearchHistory';
 import NotFound from './pages/NotFound';
+import Trending from './pages/Trending';
 
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/watch/:id" element={<Watch />} />
               <Route path="/search" element={<SearchHub />} />
+              <Route path="/trending" element={<Trending />} />
               <Route path="/history" element={<SearchHistory />} />
 
               {/* protected routes goes here... */}

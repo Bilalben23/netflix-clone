@@ -1,6 +1,6 @@
 import { fetchFromTMDB } from "../services/tmdbService.mjs"
 
-export const getTrendingMovie = async (req, res) => {
+export const getPopularMovie = async (req, res) => {
     const randomPage = Math.floor(Math.random() * 500) + 1;
 
     try {

@@ -1,13 +1,13 @@
 import { Info, Play, RefreshCcw } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import useTrendingContent from '../hooks/useTrendingContent';
 import { ORIGINAL_IMG_BASE_URL } from '../utils/constants';
 import Skeleton from 'react-loading-skeleton';
 import { Img } from 'react-image';
+import usePopularContent from '../hooks/usePopularContent';
 
 
 export default function HeroSection({ media }) {
-    const { data, isLoading, isError, error } = useTrendingContent(media);
+    const { data, isLoading, isError, error } = usePopularContent(media);
 
     if (isError) {
         return <div className='h-screen w-full flex items-center justify-center text-white'>

@@ -14,7 +14,7 @@ export default function ContentSlider({ category }) {
     const { data, isLoading, error, isError } = useContentByCategory(media, category);
 
     return (
-        <div className='bg-black text-white  w-[90%] mx-auto'>
+        <div className='bg-black text-white w-[90%] mx-auto'>
             <p className='capitalize font-semibold mb-2'>
                 {formattedCategoryName} {formattedMedia}
             </p>

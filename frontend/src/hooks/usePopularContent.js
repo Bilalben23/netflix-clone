@@ -1,16 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import useAxios from './useAxios'
 
-export default function useTrendingContent(media) {
+export default function usePopularContent(media) {
     const axiosInstance = useAxios();
     const validMedia = ["movie", "tv"];
     const finalMedia = validMedia.includes(media) ? media : "movie";
 
     return useQuery({
-        queryKey: ["trendingContent", finalMedia],
+        queryKey: ["popularContent", finalMedia],
         queryFn: async () => {
-
-            const { data } = await axiosInstance.get(`/api/v1/${finalMedia}/trending`);
+            const { data } = await axiosInstance.get(`/api/v1/${finalMedia}/popular`);
             return data;
         }
     })

@@ -77,9 +77,9 @@ export const searchEntity = async (req, res, type) => {
     }
 }
 
-export const searchPerson = (req, res) => searchEntity(req, res, "person");
-export const searchMovie = (req, res) => searchEntity(req, res, "movie");
-export const searchTv = (req, res) => searchEntity(req, res, "tv");
+export const searchPerson = (req, res) => searchEntity(req, res, SEARCH_TYPES.PERSON);
+export const searchMovie = (req, res) => searchEntity(req, res, SEARCH_TYPES.MOVIE);
+export const searchTv = (req, res) => searchEntity(req, res, SEARCH_TYPES.TV);
 
 export const getSearchHistory = async (req, res) => {
     try {

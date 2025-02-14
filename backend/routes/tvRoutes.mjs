@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    getTrendingTv,
+    getPopularTv,
     getTvsByCategory,
     getTvTrailers,
     getTvDetails,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.get("/trending", getTrendingTv);
+router.get("/popular", getPopularTv);
 
 router.get("/category/:category", getTvsByCategory);
 
