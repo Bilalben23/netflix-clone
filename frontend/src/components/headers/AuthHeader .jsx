@@ -74,6 +74,9 @@ export default function AuthHeader() {
                             <Link to="/?media=tv" onClick={closeMobileMenu}>Movies</Link>
                         </li>
                         <li>
+                            <Link to="/trending" onClick={closeMobileMenu}>Trending</Link>
+                        </li>
+                        <li>
                             <Link to="/history" onClick={closeMobileMenu}>Search History</Link>
                         </li>
                     </ul>
