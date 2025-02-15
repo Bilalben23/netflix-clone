@@ -20,7 +20,7 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
             spaceBetween={20}
             slidesPerGroup={2}
             grabCursor
-            freeMode={false}
+            freeMode
             speed={500}
             rewind={data?.length > 3}
             pagination={{ clickable: true, type: 'fraction' }}
@@ -36,7 +36,6 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                     slidesPerGroup: 3,
                     spaceBetween: 30,
                     pagination: { type: "bullets", clickable: true },
-                    freeMode: true,
                     speed: 600
                 },
                 1024: {
@@ -44,7 +43,6 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                     slidesPerGroup: 4,
                     spaceBetween: 20,
                     pagination: { type: "bullets", clickable: true },
-                    freeMode: true,
                     speed: 700
                 },
                 1280: {
@@ -52,7 +50,6 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                     slidesPerGroup: 5,
                     spaceBetween: 50,
                     pagination: { type: "bullets", clickable: true },
-                    freeMode: true,
                     speed: 800
                 }
             }}

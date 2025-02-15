@@ -16,6 +16,7 @@ import SwiperButton from '../components/ui/SwiperButton';
 import SwiperCarousel from '../components/ui/SwiperCarousel ';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import useQueryParams from '../hooks/useQueryParams';
+import { format } from 'date-fns';
 
 
 export default function Watch() {
@@ -151,7 +152,7 @@ export default function Watch() {
                             </div>
                             : <p className='mt-2 text-lg'>
                                 {
-                                    contentDetails?.data?.release_date || contentDetails?.data?.first_air_date
+                                    format(contentDetails?.data?.release_date || contentDetails?.data?.first_air_date, "MMM dd, yyyy")
                                 } | {
                                     contentDetails?.data?.adult
                                         ? <span className='text-red-600'>18+</span>

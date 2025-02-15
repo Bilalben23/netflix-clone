@@ -8,12 +8,16 @@ import { ChevronLeft, ChevronRight, Eye, Trash, History } from 'lucide-react';
 import useDeleteHistory from '../hooks/useDeleteHistory';
 import ErrorMessage from "../components/ui/ErrorMessage";
 import { useEffect } from 'react';
+import { formatDistanceToNow } from "date-fns";
+
 
 export default function SearchHistory() {
     const { getParam, setParam } = useQueryParams();
     const page = parseInt(getParam("page")) || 1;
     const { data, isPending, isError, error } = useSearchHistory(page);
     const { mutate: deleteHistoryEntry } = useDeleteHistory();
+    const date = new Date();
+
 
     const handlePerviousPageBtn = () => {
         setParam("page", page - 1)
@@ -68,9 +72,9 @@ export default function SearchHistory() {
                                                 : `/watch/${entry?.reference_id}`;
                                             const imgPlaceholder = isPerson ? "small_user_img.avif" : "small_img_placeholder.jpg"
 
-                                            return <div key={entry?._id} className='bg-[#181818]/35 p-4 flex flex-col justify-between gap-y-3 rounded shadow-md'>
+                                            return <div key={entry?._id} className='bg-[#181818]/35 p-4 flex flex-col justify-between gap-y-1 rounded shadow-md'>
                                                 <div className='flex gap-x-5'>
-                                                    <div className='size-14 shrink-0'>
+                                                    <div className='size-14 flex-none'>
                                                         <Img
                                                             src={`${SMALL_IMG_BASE_URL}/${entry?.image}`}
                                                             alt={entry?.title}
@@ -85,9 +89,9 @@ export default function SearchHistory() {
                                                     </div>
                                                     <div className='flex flex-col gap-y-1'>
                                                         <span className='text-white  text-balance line-clamp-2'>{entry?.title}</span>
-                                                        <span className='text-gray-400 text-sm'>{entry?.createdAt}</span>
+                                                        <span className='text-gray-400 text-xs'>{formatDistanceToNow(entry?.createdAt, { addSuffix: true })}</span>
                                                     </div>
-                                                    <div className='shrink-0 flex flex-col justify-between items-end'>
+                                                    <div className='flex-1 flex flex-col justify-between items-end'>
                                                         <p className={`badge capitalize shadow badge-sm rounded-full ${entry.searchType === "movie" ? "badge-error"
                                                             : entry.searchType === "tv"
                                                                 ? "badge-primary"

@@ -16,6 +16,7 @@ import SwiperCarousel from '../components/ui/SwiperCarousel ';
 import SwiperButton from '../components/ui/SwiperButton';
 import { useEffect } from 'react';
 import ErrorMessage from '../components/ui/ErrorMessage';
+import { format } from 'date-fns';
 
 export default function Person() {
     const { id } = useParams();
@@ -99,7 +100,7 @@ export default function Person() {
                                             ? <Skeleton width="50%" />
                                             : <>
                                                 <span className="font-semibold">Born:</span> {
-                                                    personDetails?.data?.birthday || "N/A"}
+                                                    format(personDetails?.data?.birthday, "MMMM dd, yyyy") || "N/A"}
                                             </>
                                     }
                                 </p>
@@ -164,7 +165,7 @@ export default function Person() {
                                     perSlideRotate: 4,
 
                                 }}
-                                grabCursor
+                                grabCursor={true}
                                 slidesPerView={1}
                                 autoplay={{
                                     delay: 1000,
@@ -173,7 +174,7 @@ export default function Person() {
                                 }}
                                 speed={800}
                                 className='scale-75'
-                                updateOnWindowResize
+                                updateOnWindowResize={true}
                             >
 
                                 {

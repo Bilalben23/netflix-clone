@@ -77,6 +77,7 @@ export default function Signup() {
                         className={classNames('input input-bordered w-full bg-transparent', {
                             "input-error": errors.username && touched.username
                         })}
+                        autoFocus
                         placeholder='johndoe'
                         {...getFieldProps("username")}
                     />
@@ -120,9 +121,9 @@ export default function Signup() {
                     <label htmlFor='rememberMe' className='text-sm text-gray-300 select-none'>Remember Me</label>
                 </div>
                 <div className='flex gap-x-2 text-sm' >
-                    <p className='text-gray-300'>Don't have an account?</p>
+                    <p className='text-gray-300'>New to Netflix?</p>
                     <Link to="/signup" className='link link-hover font-medium text-red-500'>
-                        Sign Up
+                        Sign Up Now
                     </Link>
                 </div>
             </form>

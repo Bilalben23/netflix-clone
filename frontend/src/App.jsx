@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './components/Layout';
 import Signin from './pages/auth/Signin';
@@ -32,7 +31,7 @@ export default function App() {
               <Route path="/history" element={<SearchHistory />} />
               <Route path="/watch/:id" element={<Watch />} />
               <Route path="/person/:id" element={<Person />} />
-              
+
               {/* protected routes goes here... */}
             </Route>
 
