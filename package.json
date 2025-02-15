@@ -5,7 +5,9 @@
   "main": "backend/server.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon backend/server.mjs"
+    "dev": "NODE_ENV=development nodemon backend/server.mjs",
+    "start": "NODE_ENV=production node backend/server.mjs",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",

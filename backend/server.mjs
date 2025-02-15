@@ -14,16 +14,20 @@ import tvRoutes from "./routes/tvRoutes.mjs";
 import searchRoutes from "./routes/searchRoutes.mjs";
 import trendingRoutes from "./routes/trendingRoutes.mjs";
 import peopleRoutes from "./routes/peopleRoutes.mjs";
+import path from "path";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+}));
 
 // CORS Setup
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ENV_VARS.FRONTEND_URL || "http://localhost:5173",
     allowedHeaders: ["Content-Type", "Accept", "Authorization", "X-Requested-With"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true, // allows cookies to be sent
@@ -47,7 +51,17 @@ app.use(errorHandler);
 
 
 const PORT = ENV_VARS.PORT;
+const __dirname = path.resolve();
+
+
+if (ENV_VARS.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "frontend", "dist")))
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+    })
+}
+
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
     connectDB();
 });
