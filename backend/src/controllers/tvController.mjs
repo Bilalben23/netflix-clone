@@ -76,7 +76,6 @@ export const getTvTrailers = async (req, res) => {
 
     try {
         const tvData = await fetchFromTMDB(`/tv/${id}/videos?language=en-US`)
-        console.log(tvData);
         if (!tvData?.results?.length) {
             return res.status(404).json({
                 success: false,

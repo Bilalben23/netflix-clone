@@ -38,7 +38,7 @@ export default function useAxios() {
                         const newAccessToken = await refreshToken();
                         if (!newAccessToken) {
                             dispatch(logout());
-                            navigate("/signin");
+                            navigate("/signin", { replace: true });
                             return Promise.reject(error);
                         }
 
@@ -49,7 +49,7 @@ export default function useAxios() {
                     } catch (refreshError) {
                         console.error("Token refresh failed: ".refreshError.message);
                         dispatch(logout());
-                        navigate("/signin");
+                        navigate("/signin", { replace: true });
                     }
                 }
 

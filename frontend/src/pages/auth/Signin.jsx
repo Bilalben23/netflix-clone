@@ -34,7 +34,7 @@ export default function Signup() {
                 toast.error(data.message);
             }
         } catch (err) {
-            const errorMessage = err?.response?.data?.message || "Something went wrong";
+            const errorMessage = err?.response?.data?.message || "Something went wrong!";
             if (err?.response?.status === 400) {
                 err.response.data.errors?.forEach(e => {
                     actions.setFieldError(e.field, e.message);

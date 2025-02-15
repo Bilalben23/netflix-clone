@@ -18,6 +18,7 @@
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "lucide-react": "^0.474.0",
+    "netflix": "file:..",
     "react": "^18.3.1",
     "react-accessible-accordion": "^5.0.0",
     "react-dom": "^18.3.1",

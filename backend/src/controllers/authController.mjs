@@ -40,7 +40,6 @@ export const login = async (req, res) => {
             }
         })
 
-
     } catch (err) {
         res.status(500).json({
             success: false,
@@ -102,7 +101,6 @@ export const refreshToken = (req, res) => {
     }
 
     try {
-
         jwt.verify(refreshToken, ENV_VARS.REFRESH_SECRET_TOKEN, async (err, decoded) => {
             if (err) {
                 return res.status(403).json({
@@ -142,18 +140,16 @@ export const refreshToken = (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    console.log("Logout...")
     try {
 
         const refreshToken = req.cookies.refreshToken;
 
         if (!refreshToken) {
             return res.status(400).json({
-                success: true,
+                success: false,
                 message: "No active session found, user is already logged out"
             })
         }
-
 
         res.clearCookie("refreshToken", {
             httpOnly: true,
