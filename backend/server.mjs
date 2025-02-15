@@ -13,7 +13,7 @@ import movieRoutes from "./routes/movieRoutes.mjs";
 import tvRoutes from "./routes/tvRoutes.mjs";
 import searchRoutes from "./routes/searchRoutes.mjs";
 import trendingRoutes from "./routes/trendingRoutes.mjs";
-
+import peopleRoutes from "./routes/peopleRoutes.mjs";
 
 const app = express();
 
@@ -40,9 +40,11 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", authenticateJWT, movieRoutes);
 app.use("/api/v1/tv", authenticateJWT, tvRoutes);
 app.use("/api/v1/search", authenticateJWT, searchRoutes);
-app.use("/api/v1/trending", trendingRoutes);
+app.use("/api/v1/trending", authenticateJWT, trendingRoutes);
+app.use("/api/v1/people", peopleRoutes)
 
 app.use(errorHandler);
+
 
 const PORT = ENV_VARS.PORT;
 app.listen(PORT, () => {

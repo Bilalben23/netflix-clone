@@ -33,7 +33,7 @@ const updateSearchHistory = async (userId, reference_id, image, title, searchTyp
 }
 
 
-export const searchEntity = async (req, res, type) => {
+const searchEntity = async (req, res, type) => {
     const { query } = req.query;
 
     if (!query || query.trim() === "") {

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Eye, Trash, History } from 'lucide-react';
 import useDeleteHistory from '../hooks/useDeleteHistory';
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { useEffect } from 'react';
 
 export default function SearchHistory() {
     const { getParam, setParam } = useQueryParams();
@@ -24,6 +25,11 @@ export default function SearchHistory() {
     const handleDeleteHistoryBtn = (entryId) => {
         deleteHistoryEntry(entryId);
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [page])
+
 
     return (
         <div className='min-h-screen pt-18 mb-22'>
@@ -58,7 +64,7 @@ export default function SearchHistory() {
                                         ? data?.data?.map(entry => {
                                             const isPerson = entry.searchType === "person";
                                             const linkTo = isPerson
-                                                ? `/actor/${entry?.reference_id}`
+                                                ? `/person/${entry?.reference_id}`
                                                 : `/watch/${entry?.reference_id}`;
                                             const imgPlaceholder = isPerson ? "small_user_img.avif" : "small_img_placeholder.jpg"
 

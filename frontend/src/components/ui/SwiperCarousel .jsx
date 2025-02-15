@@ -66,7 +66,7 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                         </SwiperSlide>
                     ))
                     : data?.map(item => {
-                        const linkTo = media === "people" ? `/actor/${item?.id}` : `/watch/${item.id}?media=${media}`
+                        const linkTo = media === "people" ? `/person/${item?.id}` : `/watch/${item.id}?media=${media}`
                         const imagePath = media === "people" ? item?.profile_path : item?.poster_path;
                         let imgPlaceholder = ""
                         if (media === "people") {
@@ -96,7 +96,7 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                                                 className="transition-transform w-full h-[350px] duration-300 md:group-hover:scale-125"
                                             />
                                         }
-                                        className="w-full max-h-[350px] object-cover transition-transform duration-300 md:group-hover:scale-105"
+                                        className="w-full max-h-[350px] object-fill transition-transform duration-300 md:group-hover:scale-105"
                                     />
                                 </div>
                                 <p className='mt-2 text-sm line-clamp-1 px-2 text-balance'>{item.title || item.name}</p>

@@ -111,7 +111,7 @@ export default function SearchHub() {
                                         if (!item?.profile_path && !item?.poster_path) return null;
                                         const isPerson = activeTab === "person";
                                         const imagePath = isPerson ? item?.profile_path : item?.poster_path;
-                                        const linkTo = isPerson ? `/actor/${item?.id}` : `/watch/${item?.id}?media=${activeTab}`;
+                                        const linkTo = isPerson ? `/person/${item?.id}` : `/watch/${item?.id}?media=${activeTab}`;
                                         let imgPlaceholder = ""
                                         if (isPerson) {
                                             if (item?.gender === 1) {
@@ -134,7 +134,7 @@ export default function SearchHub() {
                                                     unloader={
                                                         <img src={`/assets/${imgPlaceholder}`} className='size-full' alt={`${activeTab}-placeholder`} />
                                                     }
-                                                    className='size-full object-cover  transition-transform hover:scale-105 duration-300'
+                                                    className='size-full object-fill transition-transform hover:scale-105 duration-300'
                                                 />
                                             </div>
                                             <p className='font-semibold md:text-lg px-2 text-center line-clamp-2'>{item?.name || item?.title}</p>
