@@ -15,7 +15,6 @@ export default function LandingHeroSection() {
     const navigate = useNavigate();
 
     const onSubmit = (values, actions) => {
-        console.log(values);
         navigate(`/signup?email=${encodeURIComponent(values.email)}`)
     }
 

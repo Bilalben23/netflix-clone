@@ -28,7 +28,6 @@ export default function SearchHub() {
     })
 
     const { data, isLoading, isError, error } = useSearch(activeTab, searchTerm)
-    console.log(data);
 
     function handleTabClick(tab) {
         setParam("tab", tab);

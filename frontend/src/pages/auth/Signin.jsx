@@ -35,8 +35,6 @@ export default function Signup() {
             }
         } catch (err) {
             const errorMessage = err?.response?.data?.message || "Something went wrong";
-            console.log(err.response.data);
-            console.log(err?.response?.status)
             if (err?.response?.status === 400) {
                 err.response.data.errors?.forEach(e => {
                     actions.setFieldError(e.field, e.message);

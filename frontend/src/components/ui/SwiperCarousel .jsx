@@ -67,7 +67,6 @@ export default function SwiperCarousel({ data, category, media, isLoading }) {
                         const imagePath = media === "people" ? item?.profile_path : item?.poster_path;
                         let imgPlaceholder = ""
                         if (media === "people") {
-                            console.log(item);
                             if (item?.gender === 1) {
                                 imgPlaceholder = "female_img_placeholder.jpg"
                             } else if (item?.gender === 2) {
