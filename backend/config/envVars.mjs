@@ -8,5 +8,6 @@ export const ENV_VARS = {
     REFRESH_SECRET_TOKEN: process.env.REFRESH_SECRET_TOKEN,
     ACCESS_SECRET_TOKEN: process.env.ACCESS_SECRET_TOKEN,
     NODE_ENV: process.env.NODE_ENV,
-    TMDB_API_KEY: process.env.TMDB_API_KEY
+    TMDB_API_KEY: process.env.TMDB_API_KEY,
+    FRONTEND_URL: process.env.FRONTEND_URL
 }
