@@ -45,12 +45,17 @@ This is a **full-stack Netflix Clone** built using the **MERN stack** (MongoDB, 
 
 ```
 backend/
-│── controllers/       # Business logic for APIs
-│── models/           # Mongoose models
-│── routes/           # Express routes
-│── middleware/       # JWT authentication & validations
-│── config/           # Database & API configurations
-│── server.js         # Entry point of the backend
+├── src/
+│   ├── controllers/     # Handle request logic and orchestrate between services & models
+│   ├── models/          # Mongoose schemas and database models
+│   ├── routes/          # API route definitions and route grouping
+│   ├── middleware/      # Custom middlewares (auth, error handling, validation, etc.)
+│   ├── config/          # Configuration files (DB, environment variables, external APIs)
+│   ├── utils/           # Reusable helper functions (e.g., token generation, formatters)
+│   └── server.mjs        # Main app setup and server start logic
+├── .env                 # Environment variables (not committed)
+├── package.json         # Backend scripts and dependencies
+└── README.md            # Documentation for setup and usage
 ```
 
 ### **Frontend (React + Vite)**
@@ -251,4 +256,34 @@ Contributions are welcome! Feel free to submit **issues** and **pull requests**.
 
 **LinkedIn**: [Bilal Benyoussef](www.linkedin.com/in/bilal-benyoussef-b38a27251)
 
-Happy coding! 🚀
+---
+
+## 📸 Screenshots
+
+### 🏠 Homepage (Before Login)
+
+![Homepage Guest](frontend/public/assets/screenshots/homepage-guest.png)
+
+### 🔐 Login Page
+
+![Login](frontend/public/assets/screenshots/signin.png)
+
+### 🎬 Movies Page
+
+![Movies](frontend/public/assets/screenshots/movies-page.png)
+
+### 📺 TV Shows Page
+
+![TV Shows](frontend/public/assets/screenshots/tv-shows-page.png)
+
+### 📈 Trending Page
+
+![Trending](frontend/public/assets/screenshots/trending-page.png)
+
+### 🔍 Search Page
+
+![Search](frontend/public/assets/screenshots/search-page.png)
+
+### 🕘 Search History
+
+![History](frontend/public/assets/screenshots/history-page.png)
