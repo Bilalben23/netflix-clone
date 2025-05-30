@@ -2,32 +2,31 @@
   "name": "netflix",
   "version": "1.0.0",
   "type": "module",
-  "main": "backend/server.mjs",
+  "main": "src/server.mjs",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server.mjs",
-    "start": "cross-env NODE_ENV=production node server.mjs",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "nodemon src/server.mjs",
+    "start": "node api/index.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "axios": "^1.8.4",
-    "bcrypt": "^5.1.1",
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "express-validator": "^7.2.1",
-    "helmet": "^8.0.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.2",
+    "mongoose": "^8.15.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.10"
   }
 }

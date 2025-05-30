@@ -18,7 +18,7 @@ export default function AuthHeader() {
     }
 
     return (
-        <header className='flex w-full items-center justify-between py-4 mx-auto max-w-6xl px-4 md:px-10 lg:px-16 fixed top-0 z-50'>
+        <header className='flex w-full items-center justify-between py-4 mx-auto px-4 md:px-10 lg:px-16 fixed top-0 z-50'>
             <div className='flex items-center md:gap-x-10'>
                 <button type='button' className='cursor-pointer'>
                     <img src="/assets/netflix-logo.png" alt="logo" className='w-20 md:w-24 lg:28' />

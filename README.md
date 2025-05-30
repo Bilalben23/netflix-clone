@@ -258,6 +258,19 @@ Contributions are welcome! Feel free to submit **issues** and **pull requests**.
 
 ---
 
+---
+
+## 🚀 Live Demo
+
+Check out the live version of the Netflix Clone:
+
+🔗 [Live Demo](https://netflix-clone-frontend-flame.vercel.app)  
+_(Hosted on [Vercel](https://vercel.com))_
+
+> ⚠️ Note: Some features (e.g. authentication, protected routes, trailers) may require creating an account or logging in with demo credentials.
+
+---
+
 ## 📸 Screenshots
 
 ### 🏠 Homepage (Before Login)
